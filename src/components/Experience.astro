@@ -1,0 +1,127 @@
+---
+import type { Content } from '../i18n/types';
+import SectionHeader from './SectionHeader.astro';
+interface Props {
+  c: Content;
+}
+const { c } = Astro.props;
+const e = c.experience;
+const main = e.jobs.filter((j) => !j.older);
+const older = e.jobs.filter((j) => j.older);
+---
+
+<section id={c.ids.experience} class="section" aria-labelledby={`${c.ids.experience}-title`}>
+  <div class="container-page">
+    <SectionHeader id={c.ids.experience} kicker={e.kicker} title={e.title} />
+
+    <ol class="timeline">
+      {
+        main.map((job, i) => (
+          <li class="job" data-reveal>
+            <span class:list={['job-dot', { 'is-now': i === 0 }]} aria-hidden="true" />
+            <div class="grid gap-1 md:grid-cols-[1fr_auto] md:gap-6">
+              <h3 class="text-[20px] font-semibold leading-snug">
+                {job.role} <span class="font-normal text-muted">· {job.company}</span>
+              </h3>
+              <p class="t-mono text-muted md:pt-1.5">{job.dates}</p>
+            </div>
+            <p class="measure mt-2 text-muted">{job.summary}</p>
+            {job.bullets.length > 0 && (
+              <ul class="bullets measure mt-4">
+                {job.bullets.map((b) => (
+                  <li>{b}</li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+
+    {
+      older.length > 0 && (
+        <details class="older mt-6" data-reveal>
+          <summary class="btn">{e.olderToggle}</summary>
+          <ol class="timeline mt-8">
+            {older.map((job) => (
+              <li class="job">
+                <span class="job-dot" aria-hidden="true" />
+                <div class="grid gap-1 md:grid-cols-[1fr_auto] md:gap-6">
+                  <h3 class="font-semibold">
+                    {job.role} <span class="font-normal text-muted">· {job.company}</span>
+                  </h3>
+                  <p class="t-mono text-muted md:pt-0.5">{job.dates}</p>
+                </div>
+                <p class="measure mt-1 text-muted">{job.summary}</p>
+              </li>
+            ))}
+          </ol>
+        </details>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .timeline {
+    position: relative;
+    display: grid;
+    gap: 48px;
+    padding-left: 28px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 10px;
+    bottom: 10px;
+    width: 1px;
+    background: var(--line);
+  }
+  .job {
+    position: relative;
+  }
+  .job-dot {
+    position: absolute;
+    left: -28px;
+    top: 8px;
+    width: 11px;
+    height: 11px;
+    border-radius: 999px;
+    border: 2px solid var(--muted);
+    background: var(--bg);
+  }
+  .job-dot.is-now {
+    border-color: var(--accent);
+    background: var(--accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+  .bullets {
+    display: grid;
+    gap: 8px;
+  }
+  .bullets li {
+    position: relative;
+    padding-left: 18px;
+  }
+  .bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.72em;
+    width: 6px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .older > summary {
+    list-style: none;
+    cursor: pointer;
+    width: fit-content;
+  }
+  .older > summary::-webkit-details-marker {
+    display: none;
+  }
+  .older[open] > summary {
+    display: none;
+  }
+</style>

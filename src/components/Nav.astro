@@ -1,0 +1,103 @@
+---
+import type { Content } from '../i18n/types';
+interface Props {
+  c: Content;
+}
+const { c } = Astro.props;
+const home = c.locale === 'es' ? '/' : '/en/';
+const links = [
+  { id: c.ids.project, label: c.nav.links[0].label },
+  { id: c.ids.value, label: c.nav.links[1].label },
+  { id: c.ids.experience, label: c.nav.links[2].label },
+  { id: c.ids.skills, label: c.nav.links[3].label },
+  { id: c.ids.contact, label: c.nav.links[4].label },
+];
+---
+
+<header class="nav sticky top-0 z-50">
+  <nav class="container-page flex h-14 items-center justify-between gap-4" aria-label={c.locale === 'es' ? 'Principal' : 'Main'}>
+    <a href={home} class="font-semibold tracking-tight no-underline">
+      Andrés Jaramillo<span class="text-accent">.</span>
+    </a>
+
+    <ul class="hidden items-center gap-1 lg:flex">
+      {
+        links.map((l) => (
+          <li>
+            <a href={`#${l.id}`} class="nav-link">
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex items-center gap-1">
+      <a
+        href={c.nav.otherLang.href}
+        hreflang={c.nav.otherLang.hreflang}
+        lang={c.nav.otherLang.hreflang}
+        class="nav-icon t-mono"
+        title={c.nav.otherLang.ariaLabel}
+      >
+        {c.nav.otherLang.label}<span class="sr-only"> · {c.nav.otherLang.ariaLabel}</span>
+      </a>
+      <button
+        type="button"
+        class="nav-icon"
+        data-theme-toggle
+        data-label-light={c.nav.themeToLight}
+        data-label-dark={c.nav.themeToDark}
+        aria-label={c.nav.themeToLight}
+      >
+        <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"></path>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"></path>
+        </svg>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<style>
+  .nav {
+    background: var(--nav-bg);
+    backdrop-filter: saturate(160%) blur(14px);
+    -webkit-backdrop-filter: saturate(160%) blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-link {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 999px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.15s var(--ease-ui);
+  }
+  .nav-link:hover {
+    color: var(--ink);
+  }
+  .nav-icon {
+    display: inline-grid;
+    place-items: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 8px;
+    border-radius: 999px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s var(--ease-ui), background-color 0.15s var(--ease-ui);
+  }
+  .nav-icon:hover {
+    color: var(--ink);
+    background: color-mix(in srgb, var(--ink) 8%, transparent);
+  }
+  :global([data-theme='dark']) .icon-moon,
+  :global([data-theme='light']) .icon-sun {
+    display: none;
+  }
+</style>

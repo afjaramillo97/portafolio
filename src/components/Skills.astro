@@ -1,0 +1,57 @@
+---
+import type { Content } from '../i18n/types';
+import SectionHeader from './SectionHeader.astro';
+import { iconSvg } from '../lib/icons';
+interface Props {
+  c: Content;
+}
+const { c } = Astro.props;
+const s = c.skills;
+---
+
+<section id={c.ids.skills} class="section" aria-labelledby={`${c.ids.skills}-title`}>
+  <div class="container-page">
+    <SectionHeader id={c.ids.skills} kicker={s.kicker} title={s.title} />
+    <div class="grid gap-4 md:grid-cols-2 md:gap-6">
+      {
+        s.groups.map((g, i) => (
+          <div class="card p-6 md:p-8" data-reveal style={`--i:${i % 2}`}>
+            <h3 class="t-mono text-muted">{g.name}</h3>
+            <ul class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {g.items.map((item) => (
+                <li class="skill">
+                  <span class="skill-icon" set:html={iconSvg(item.icon, 18)} />
+                  <span>{item.label}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .skill {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 36px;
+  }
+  .skill-icon {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    transition: color 0.15s var(--ease-ui), border-color 0.15s var(--ease-ui);
+  }
+  .skill:hover .skill-icon {
+    color: var(--accent);
+    border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  }
+</style>

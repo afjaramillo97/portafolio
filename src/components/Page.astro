@@ -1,0 +1,30 @@
+---
+import type { Content } from '../i18n/types';
+import Base from '../layouts/Base.astro';
+import Hero from './Hero.astro';
+import Stats from './Stats.astro';
+import Project from './Project.astro';
+import Value from './Value.astro';
+import Experience from './Experience.astro';
+import Skills from './Skills.astro';
+import Learning from './Learning.astro';
+import Education from './Education.astro';
+import Contact from './Contact.astro';
+
+interface Props {
+  c: Content;
+}
+const { c } = Astro.props;
+---
+
+<Base c={c}>
+  <Hero c={c} />
+  <Stats c={c} />
+  <Project c={c} />
+  <Value c={c} />
+  <Experience c={c} />
+  <Skills c={c} />
+  <Learning c={c} />
+  <Education c={c} />
+  <Contact c={c} />
+</Base>

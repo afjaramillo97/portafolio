@@ -1,0 +1,14 @@
+---
+import type { Content } from '../i18n/types';
+interface Props {
+  c: Content;
+}
+const { c } = Astro.props;
+---
+
+<footer class="border-t border-line">
+  <div class="container-page flex flex-col gap-2 py-8 text-muted sm:flex-row sm:items-center sm:justify-between">
+    <p class="t-mono">© 2026 Andrés Jaramillo</p>
+    <p class="t-mono">{c.footer.built} · {c.footer.updated}</p>
+  </div>
+</footer>

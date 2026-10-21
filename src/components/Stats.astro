@@ -1,0 +1,20 @@
+---
+import type { Content } from '../i18n/types';
+interface Props {
+  c: Content;
+}
+const { c } = Astro.props;
+---
+
+<section class="border-y border-line" aria-label={c.locale === 'es' ? 'En cifras' : 'At a glance'}>
+  <dl class="container-page grid grid-cols-2 gap-x-6 gap-y-8 py-10 md:grid-cols-4 md:py-12">
+    {
+      c.stats.map((s, i) => (
+        <div class="flex flex-col-reverse gap-1" data-reveal style={`--i:${i}`}>
+          <dt class="text-muted">{s.label}</dt>
+          <dd class="t-title">{s.value}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</section>

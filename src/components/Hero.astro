@@ -1,0 +1,137 @@
+---
+import { Image } from 'astro:assets';
+import type { Content } from '../i18n/types';
+import foto from '../assets/foto.jpg';
+import { iconSvg } from '../lib/icons';
+
+interface Props {
+  c: Content;
+}
+const { c } = Astro.props;
+---
+
+<section class="hero relative isolate overflow-hidden" aria-labelledby="hero-name">
+  <canvas class="hero-graph" data-node-graph aria-hidden="true"></canvas>
+
+  <div class="container-page relative grid items-center gap-8 pb-16 pt-10 md:grid-cols-[1fr_auto] md:gap-16 md:pb-28 md:pt-24">
+    <div class="order-2 md:order-1">
+      <p class="t-mono mb-3 text-muted" data-reveal>{c.hero.hello}</p>
+      <h1 id="hero-name" class="t-display" data-reveal style="--i:1">{c.hero.name}</h1>
+      <p class="t-lead mt-3 font-medium text-accent" data-reveal style="--i:2">{c.hero.role}</p>
+      <p class="t-lead measure mt-5 text-muted" data-reveal style="--i:3">{c.hero.lead}</p>
+      <p class="t-mono mt-5 flex items-center gap-2 text-muted" data-reveal style="--i:4">
+        <span class="dot" aria-hidden="true"></span>{c.hero.location}
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-3" data-reveal style="--i:5">
+        <a href={`#${c.ids.project}`} class="btn btn-primary">{c.hero.ctaProject}</a>
+        <a href={c.hero.cvHref} class="btn" download>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14"></path>
+          </svg>
+          {c.hero.ctaCv}
+        </a>
+        <a href={c.links.github} class="icon-btn" aria-label="GitHub" rel="me noopener" target="_blank">
+          <Fragment set:html={iconSvg('github', 20)} />
+        </a>
+        <a href={c.links.linkedin} class="icon-btn t-mono" rel="me noopener" target="_blank"><span aria-hidden="true">in</span><span class="sr-only">LinkedIn</span></a>
+      </div>
+    </div>
+
+    <div class="order-1 md:order-2" data-reveal>
+      <div class="photo">
+        <Image
+          src={foto}
+          alt={c.hero.photoAlt}
+          widths={[160, 280, 320, 560]}
+          sizes="(min-width: 768px) 280px, 120px"
+          loading="eager"
+          fetchpriority="high"
+          format="webp"
+          quality={82}
+          class="h-full w-full rounded-full object-cover"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { mountNodeGraph } from '../scripts/node-graph';
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-node-graph]');
+  if (canvas) {
+    const start = () => mountNodeGraph(canvas);
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start, { once: true });
+  }
+</script>
+
+<style>
+  .hero {
+    min-height: calc(100svh - 56px);
+    display: grid;
+    align-items: center;
+  }
+  @media (max-width: 767px) {
+    .hero {
+      min-height: auto;
+    }
+  }
+  .hero-graph {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    /* Dim the network behind the text, full strength around the photo. */
+    -webkit-mask-image: linear-gradient(to right, rgb(0 0 0 / 0.28) 0%, rgb(0 0 0 / 0.38) 40%, #000 72%);
+    mask-image: linear-gradient(to right, rgb(0 0 0 / 0.28) 0%, rgb(0 0 0 / 0.38) 40%, #000 72%);
+  }
+  @media (max-width: 767px) {
+    .hero-graph {
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgb(0 0 0 / 0.55) 30%, rgb(0 0 0 / 0.25) 60%);
+      mask-image: linear-gradient(to bottom, #000 0%, rgb(0 0 0 / 0.55) 30%, rgb(0 0 0 / 0.25) 60%);
+    }
+  }
+  .photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    padding: 4px;
+    background: var(--bg);
+    box-shadow: 0 0 0 1px var(--line), 0 0 64px 8px var(--halo);
+  }
+  @media (min-width: 768px) {
+    .photo {
+      width: 280px;
+      height: 280px;
+      padding: 6px;
+    }
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+  .icon-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: color 0.15s var(--ease-ui), border-color 0.15s var(--ease-ui), transform 0.15s var(--ease-ui);
+  }
+  .icon-btn:hover {
+    color: var(--ink);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+</style>

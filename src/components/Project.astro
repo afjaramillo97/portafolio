@@ -1,0 +1,229 @@
+---
+import type { Content } from '../i18n/types';
+import SectionHeader from './SectionHeader.astro';
+interface Props {
+  c: Content;
+}
+const { c } = Astro.props;
+const p = c.project;
+
+// First render uses the build date (Bogotá); the page script refreshes it with the visitor's date.
+const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Bogota' }).format(new Date());
+const finished = today >= p.endDate;
+let current = 0;
+p.weeks.forEach((w, i) => {
+  if (w.start <= today) current = i;
+});
+const status = finished ? p.statusDone : p.statusTemplate.replace('{n}', String(current + 1));
+---
+
+<section id={c.ids.project} class="section" aria-labelledby={`${c.ids.project}-title`}>
+  <div class="container-page">
+    <SectionHeader id={c.ids.project} kicker={p.kicker} title={p.title} />
+
+    <article class="card overflow-hidden" data-reveal>
+      <div class="p-5 md:p-10">
+        <p class="status t-mono">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span data-project-status data-template={p.statusTemplate} data-done={p.statusDone}>{status}</span>
+        </p>
+        <p class="t-lead measure mt-5">{p.text}</p>
+
+        <h3 class="t-mono mt-10 text-muted">{p.archTitle}</h3>
+        <ol class="arch mt-4">
+          {
+            p.arch.map((step, i) => (
+              <li class="arch-step">
+                <span class="t-mono text-accent">{String(i + 1).padStart(2, '0')}</span>
+                <span class="font-medium">{step.name}</span>
+                <span class="t-mono text-muted">{step.detail}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+
+      <div class="border-t border-line p-5 md:p-10">
+        <h3 class="t-mono text-muted">{p.roadmapTitle}</h3>
+        <ol class="roadmap mt-4" data-roadmap data-end={p.endDate}>
+          {
+            p.weeks.map((w, i) => (
+              <li
+                class:list={['week', { 'is-current': !finished && i === current, 'is-done': finished || i < current }]}
+                data-week-start={w.start}
+                aria-current={!finished && i === current ? 'step' : undefined}
+              >
+                <span class="week-bar" aria-hidden="true" />
+                <span class="t-mono week-num">
+                  {p.weekLabel} {i + 1}
+                  <span class="sr-only" data-current-label hidden={finished || i !== current}>
+                    · {p.currentLabel}
+                  </span>
+                </span>
+                <span class="week-title">{w.title}</span>
+                <span class="t-mono text-muted">{w.dates}</span>
+              </li>
+            ))
+          }
+        </ol>
+
+        <ul class="mt-8 flex flex-wrap gap-2" aria-label="Stack">
+          {p.chips.map((chip) => <li class="chip">{chip}</li>)}
+        </ul>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          {
+            p.repoHref ? (
+              <a href={p.repoHref} class="btn btn-primary" target="_blank" rel="noopener">
+                {p.repoLabel} ↗
+              </a>
+            ) : (
+              <span class="btn" aria-disabled="true">
+                {p.repoSoon}
+              </span>
+            )
+          }
+          <span class="btn" aria-disabled="true">{p.demoSoon}</span>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<style>
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    color: var(--signal);
+    border: 1px solid color-mix(in srgb, var(--signal) 40%, transparent);
+    background: color-mix(in srgb, var(--signal) 8%, transparent);
+    white-space: nowrap;
+  }
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--signal);
+    animation: blink 2.4s ease-in-out infinite;
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0.35;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .status-dot {
+      animation: none;
+    }
+  }
+
+  /* Architecture: vertical on mobile, a row of steps on desktop */
+  .arch {
+    display: grid;
+    gap: 8px;
+  }
+  .arch-step {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 2px;
+    padding: 12px 16px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg);
+  }
+  .arch-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -9px;
+    width: 1px;
+    height: 8px;
+    background: var(--accent);
+  }
+  @media (min-width: 900px) {
+    .arch {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .arch-step {
+      padding: 14px;
+    }
+    .arch-step:not(:last-child)::after {
+      left: auto;
+      right: -16px;
+      top: 50%;
+      bottom: auto;
+      width: 16px;
+      height: 1px;
+    }
+  }
+
+  /* Roadmap: 8 segments */
+  .roadmap {
+    display: grid;
+    gap: 16px;
+  }
+  .week {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    align-items: baseline;
+    align-content: start;
+    column-gap: 12px;
+    padding-left: 16px;
+    position: relative;
+  }
+  .week-bar {
+    position: absolute;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 3px;
+    border-radius: 3px;
+    background: var(--line);
+  }
+  .week-num {
+    color: var(--muted);
+    grid-row: span 2;
+  }
+  .week.is-done .week-bar {
+    background: var(--accent);
+  }
+  .week.is-current .week-bar {
+    background: var(--signal);
+  }
+  .week.is-current .week-num,
+  .week.is-current .week-title {
+    color: var(--signal);
+    font-weight: 600;
+  }
+  @media (min-width: 900px) {
+    .roadmap {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .week-num {
+      grid-row: auto;
+    }
+    .week {
+      grid-template-columns: 1fr;
+      row-gap: 4px;
+      padding-left: 0;
+      padding-top: 16px;
+    }
+    .week-bar {
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: auto;
+      width: auto;
+      height: 4px;
+    }
+    .week-title {
+      line-height: 1.35;
+    }
+  }
+</style>

@@ -1,0 +1,57 @@
+---
+import type { Content } from '../i18n/types';
+import SectionHeader from './SectionHeader.astro';
+interface Props {
+  c: Content;
+}
+const { c } = Astro.props;
+const ed = c.education;
+---
+
+<section class="section pt-0 md:pt-0" aria-labelledby="education-title">
+  <div class="container-page">
+    <SectionHeader id="education" kicker={ed.kicker} title={ed.title} />
+    <div class="grid grid-cols-1 gap-10 md:grid-cols-[2fr_3fr] md:gap-16">
+      <ul class="grid content-start gap-6" data-reveal>
+        {
+          ed.degrees.map((d) => (
+            <li>
+              <p class="t-mono text-muted">{d.years}</p>
+              <h3 class="mt-1 text-[20px] font-semibold leading-snug">{d.title}</h3>
+              <p class="mt-1 text-muted">{d.school}</p>
+            </li>
+          ))
+        }
+        <li>
+          <p class="t-mono text-muted">{ed.languagesTitle}</p>
+          <p class="mt-1">{ed.languages}</p>
+        </li>
+      </ul>
+
+      <ul class="highlights grid content-start gap-6" data-reveal style="--i:1">
+        {
+          ed.highlights.map((h) => (
+            <li class="measure">
+              <p>{h.text}</p>
+              {h.href && (
+                <a href={h.href} class="link t-mono mt-2 inline-block" target="_blank" rel="noopener">
+                  {h.linkLabel} ↗
+                </a>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .highlights > li {
+    padding-left: 14px;
+    border-left: 2px solid var(--line);
+  }
+  .highlights > li:first-child {
+    border-left-color: var(--accent);
+  }
+</style>
