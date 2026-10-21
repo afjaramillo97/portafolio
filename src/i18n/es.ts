@@ -259,6 +259,7 @@ const es: Content = {
     github: 'https://github.com/afjaramillo97',
     linkedin: 'https://www.linkedin.com/in/AFJR',
   },
+  langHint: { lang: 'en', text: 'This site is also available in English.', cta: 'View in English', close: 'Dismiss' },
   footer: {
     built: 'Hecho con Astro · Publicado en Vercel',
     updated: 'Actualizado en octubre de 2026',

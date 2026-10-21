@@ -1,9 +1,9 @@
 /**
- * Hero background: a slowly drifting network of nodes. Every few seconds an
+ * Page background: a slowly drifting network of nodes (fixed canvas behind all sections). Every few seconds an
  * amber signal travels 3–4 edges and lights the nodes it touches, like a tool
  * call moving through an agent. No dependencies, ~4 KB.
  *
- * - Paused when the hero is off screen or the tab is hidden.
+ * - Paused when the tab is hidden.
  * - prefers-reduced-motion: draws a single still frame.
  * - Re-reads colors when the theme changes.
  */
@@ -20,7 +20,6 @@ const SEG_MS = 380;
 export function mountNodeGraph(canvas: HTMLCanvasElement): void {
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
-  const host = canvas.parentElement ?? canvas;
   const reducedQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   let w = 0;
@@ -292,12 +291,12 @@ export function mountNodeGraph(canvas: HTMLCanvasElement): void {
     if (!raf) draw(0);
   }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
-  host.addEventListener('pointermove', (e) => {
+  window.addEventListener('pointermove', (e) => {
     const rect = canvas.getBoundingClientRect();
     pointer.x = e.clientX - rect.left;
     pointer.y = e.clientY - rect.top;
   });
-  host.addEventListener('pointerleave', () => {
+  document.documentElement.addEventListener('pointerleave', () => {
     pointer.x = pointer.y = -1e4;
   });
 

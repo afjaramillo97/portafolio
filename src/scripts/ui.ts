@@ -3,7 +3,7 @@
 const root = document.documentElement;
 
 // ---------- Theme ----------
-const THEME_COLORS = { dark: '#070D14', light: '#F7F9FB' } as const;
+const THEME_COLORS = { dark: '#0F1924', light: '#F7F9FB' } as const;
 
 function applyThemeUi() {
   const theme = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
@@ -81,6 +81,50 @@ document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
     }, 2200);
   });
 });
+
+// ---------- Language hint: offer the other version, never redirect ----------
+const hint = document.querySelector<HTMLElement>('[data-lang-hint]');
+if (hint) {
+  const pageIsSpanish = root.lang.toLowerCase().startsWith('es');
+  const browserLangs = (navigator.languages?.length ? navigator.languages : [navigator.language]).map((l) => l.toLowerCase());
+  const prefersSpanish = browserLangs[0]?.startsWith('es') ?? true;
+  let dismissed = false;
+  try {
+    dismissed = localStorage.getItem('langHint') === 'dismissed';
+  } catch {
+    /* no storage: show the hint, it just won't be remembered */
+  }
+  const remember = () => {
+    try {
+      localStorage.setItem('langHint', 'dismissed');
+    } catch {
+      /* ignore */
+    }
+  };
+  document.querySelectorAll('a[hreflang]').forEach((a) => a.addEventListener('click', remember));
+  const show = () => {
+    hint.hidden = false;
+    requestAnimationFrame(() => hint.classList.add('is-in'));
+  };
+  if (!dismissed && pageIsSpanish !== prefersSpanish) {
+    if (window.innerWidth >= 640) {
+      window.setTimeout(show, 1200);
+    } else {
+      // On phones, wait until the visitor scrolls past the hero so it never covers the main button.
+      const onScroll = () => {
+        if (window.scrollY > window.innerHeight * 0.6) {
+          window.removeEventListener('scroll', onScroll);
+          show();
+        }
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
+  }
+  hint.querySelector('[data-lang-hint-close]')?.addEventListener('click', () => {
+    remember();
+    hint.hidden = true;
+  });
+}
 
 // ---------- Roadmap: mark the current week with the visitor's date ----------
 const roadmap = document.querySelector<HTMLElement>('[data-roadmap]');

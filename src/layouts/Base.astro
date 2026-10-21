@@ -46,7 +46,7 @@ const personLd = {
     <link rel="alternate" hreflang="x-default" href={esUrl} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#070D14" />
+    <meta name="theme-color" content="#0F1924" />
     <meta name="author" content="Andrés Jaramillo" />
 
     <meta property="og:type" content="website" />
@@ -78,14 +78,36 @@ const personLd = {
     </script>
   </head>
   <body class="min-h-svh overflow-x-clip">
+    <canvas class="page-graph" data-node-graph aria-hidden="true"></canvas>
     <a class="skip-link" href="#main">{c.nav.skip}</a>
     <Nav c={c} />
     <main id="main" tabindex="-1" class="outline-none">
       <slot />
     </main>
     <Footer c={c} />
+    <div class="lang-hint card" data-lang-hint hidden lang={c.langHint.lang} role="region" aria-label={c.langHint.text}>
+      <p>{c.langHint.text}</p>
+      <a href={c.nav.otherLang.href} hreflang={c.nav.otherLang.hreflang} class="btn btn-primary" data-lang-hint-go>{c.langHint.cta}</a>
+      <button type="button" class="lang-hint-close" data-lang-hint-close aria-label={c.langHint.close}>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </button>
+    </div>
     <script>
       import '../scripts/ui';
+      import { mountNodeGraph } from '../scripts/node-graph';
+      const canvas = document.querySelector<HTMLCanvasElement>('[data-node-graph]');
+      if (canvas) {
+        const start = () => mountNodeGraph(canvas);
+        if (document.readyState === 'complete') start();
+        else window.addEventListener('load', start, { once: true });
+        // Full strength over the hero, softer behind the rest of the page.
+        const hero = document.querySelector('[data-hero]');
+        if (hero) {
+          new IntersectionObserver(([e]) => canvas.classList.toggle('is-dim', !e.isIntersecting), {
+            rootMargin: '-35% 0px 0px 0px',
+          }).observe(hero);
+        }
+      }
     </script>
   </body>
 </html>

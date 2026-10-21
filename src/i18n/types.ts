@@ -89,4 +89,6 @@ export interface Content {
   };
   links: { github: string; linkedin: string };
   footer: { built: string; updated: string };
+  /** Hint offered to visitors whose browser language differs from this page. Written in the OTHER language. */
+  langHint: { lang: string; text: string; cta: string; close: string };
 }

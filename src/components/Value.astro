@@ -1,6 +1,7 @@
 ---
 import type { Content } from '../i18n/types';
 import SectionHeader from './SectionHeader.astro';
+import { chipIcon } from '../lib/icons';
 interface Props {
   c: Content;
 }
@@ -23,7 +24,10 @@ const v = c.value;
             </div>
             <ul class="mt-6 flex flex-wrap gap-2 pt-1 md:mt-auto">
               {card.chips.map((chip) => (
-                <li class="chip">{chip}</li>
+                <li class="chip">
+                  {chipIcon(chip) && <span class="chip-icon" set:html={chipIcon(chip)} />}
+                  {chip}
+                </li>
               ))}
             </ul>
           </li>

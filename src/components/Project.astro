@@ -1,6 +1,7 @@
 ---
 import type { Content } from '../i18n/types';
 import SectionHeader from './SectionHeader.astro';
+import { chipIcon } from '../lib/icons';
 interface Props {
   c: Content;
 }
@@ -68,7 +69,14 @@ const status = finished ? p.statusDone : p.statusTemplate.replace('{n}', String(
         </ol>
 
         <ul class="mt-8 flex flex-wrap gap-2" aria-label="Stack">
-          {p.chips.map((chip) => <li class="chip">{chip}</li>)}
+          {
+            p.chips.map((chip) => (
+              <li class="chip">
+                {chipIcon(chip) && <span class="chip-icon" set:html={chipIcon(chip)} />}
+                {chip}
+              </li>
+            ))
+          }
         </ul>
 
         <div class="mt-8 flex flex-wrap gap-3">

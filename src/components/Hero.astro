@@ -10,8 +10,7 @@ interface Props {
 const { c } = Astro.props;
 ---
 
-<section class="hero relative isolate overflow-hidden" aria-labelledby="hero-name">
-  <canvas class="hero-graph" data-node-graph aria-hidden="true"></canvas>
+<section class="hero relative isolate overflow-hidden" aria-labelledby="hero-name" data-hero>
 
   <div class="container-page relative grid items-center gap-8 pb-16 pt-10 md:grid-cols-[1fr_auto] md:gap-16 md:pb-28 md:pt-24">
     <div class="order-2 md:order-1">
@@ -43,8 +42,8 @@ const { c } = Astro.props;
         <Image
           src={foto}
           alt={c.hero.photoAlt}
-          widths={[160, 280, 320, 560]}
-          sizes="(min-width: 768px) 280px, 120px"
+          widths={[144, 288, 340, 680]}
+          sizes="(min-width: 768px) 340px, 144px"
           loading="eager"
           fetchpriority="high"
           format="webp"
@@ -56,15 +55,6 @@ const { c } = Astro.props;
   </div>
 </section>
 
-<script>
-  import { mountNodeGraph } from '../scripts/node-graph';
-  const canvas = document.querySelector<HTMLCanvasElement>('[data-node-graph]');
-  if (canvas) {
-    const start = () => mountNodeGraph(canvas);
-    if (document.readyState === 'complete') start();
-    else window.addEventListener('load', start, { once: true });
-  }
-</script>
 
 <style>
   .hero {
@@ -77,25 +67,32 @@ const { c } = Astro.props;
       min-height: auto;
     }
   }
-  .hero-graph {
+  /* Dim the network behind the text; full strength around the photo. */
+  .hero::before {
+    content: '';
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
     z-index: -1;
-    /* Dim the network behind the text, full strength around the photo. */
-    -webkit-mask-image: linear-gradient(to right, rgb(0 0 0 / 0.28) 0%, rgb(0 0 0 / 0.38) 40%, #000 72%);
-    mask-image: linear-gradient(to right, rgb(0 0 0 / 0.28) 0%, rgb(0 0 0 / 0.38) 40%, #000 72%);
+    background: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--bg) 72%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 60%, transparent) 42%,
+      transparent 72%
+    );
   }
   @media (max-width: 767px) {
-    .hero-graph {
-      -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgb(0 0 0 / 0.55) 30%, rgb(0 0 0 / 0.25) 60%);
-      mask-image: linear-gradient(to bottom, #000 0%, rgb(0 0 0 / 0.55) 30%, rgb(0 0 0 / 0.25) 60%);
+    .hero::before {
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        color-mix(in srgb, var(--bg) 50%, transparent) 28%,
+        color-mix(in srgb, var(--bg) 72%, transparent) 60%
+      );
     }
   }
   .photo {
-    width: 120px;
-    height: 120px;
+    width: 144px;
+    height: 144px;
     border-radius: 999px;
     border: 1px solid var(--line);
     padding: 4px;
@@ -104,8 +101,8 @@ const { c } = Astro.props;
   }
   @media (min-width: 768px) {
     .photo {
-      width: 280px;
-      height: 280px;
+      width: 340px;
+      height: 340px;
       padding: 6px;
     }
   }
