@@ -66,7 +66,7 @@ const en: Content = {
     endDate: '2026-12-14',
     chips: ['Python', 'FastAPI', 'LangGraph', 'Claude', 'PostgreSQL', 'Playwright', 'AWS Lambda', 'Terraform', 'React'],
     repoLabel: 'Repository',
-    repoHref: null,
+    repoHref: 'https://github.com/afjaramillo97/sobreplano',
     repoSoon: 'Repository · coming soon',
     demoSoon: 'Demo · coming soon',
   },
