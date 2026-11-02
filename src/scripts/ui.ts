@@ -1,4 +1,4 @@
-/** Small page behaviours: theme toggle, reveal on scroll, copy email, roadmap week. */
+/** Small page behaviours: theme toggle, reveal on scroll, copy email, language hint. */
 
 const root = document.documentElement;
 
@@ -124,34 +124,4 @@ if (hint) {
     remember();
     hint.hidden = true;
   });
-}
-
-// ---------- Roadmap: mark the current week with the visitor's date ----------
-const roadmap = document.querySelector<HTMLElement>('[data-roadmap]');
-if (roadmap) {
-  const today = new Date();
-  const iso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-  const items = Array.from(roadmap.querySelectorAll<HTMLElement>('[data-week-start]'));
-  const end = roadmap.dataset.end ?? '9999-12-31';
-  let current = -1;
-  items.forEach((item, i) => {
-    if ((item.dataset.weekStart ?? '') <= iso) current = i;
-  });
-  const finished = iso >= end;
-  items.forEach((item, i) => {
-    const isCurrent = !finished && i === Math.max(current, 0);
-    const isDone = finished || i < Math.max(current, 0);
-    item.classList.toggle('is-current', isCurrent);
-    item.classList.toggle('is-done', isDone);
-    const sr = item.querySelector<HTMLElement>('[data-current-label]');
-    if (sr) sr.hidden = !isCurrent;
-    if (isCurrent) item.setAttribute('aria-current', 'step');
-    else item.removeAttribute('aria-current');
-  });
-  const status = document.querySelector<HTMLElement>('[data-project-status]');
-  if (status) {
-    status.textContent = finished
-      ? (status.dataset.done ?? '')
-      : (status.dataset.template ?? '').replace('{n}', String(Math.max(current, 0) + 1));
-  }
 }

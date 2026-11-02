@@ -1,5 +1,5 @@
 import type { Content } from './types';
-import { weeks } from './roadmap';
+import { specs, specsDone, specsTotal } from './sobreplano';
 
 const es: Content = {
   locale: 'es',
@@ -46,28 +46,39 @@ const es: Content = {
   ],
   project: {
     kicker: 'Proyecto destacado',
-    title: 'Buscador de vivienda nueva con asesor IA',
-    statusTemplate: 'En construcción · semana {n} de 8',
-    statusDone: 'Publicado',
-    text: 'Reúne los proyectos de vivienda nueva del Valle de Aburrá, guarda el histórico de precios y responde con un asesor IA que busca, compara y simula crédito.',
+    title: 'Sobreplano',
+    subtitle: 'Buscador de vivienda nueva sobre planos en el Valle de Aburrá, con histórico diario de precios y un asesor IA.',
+    status: `En producción · ${specsDone} de ${specsTotal} specs para la demo`,
+    text: 'Hoy corre en producción: cada mañana un scraper en AWS visita los sitios de Londoño Gómez y Constructora Capital, un LLM extrae tipologías y precios a modelos validados y cada precio queda en un histórico de solo inserción en Supabase. Lo siguiente es la API de lectura, el asesor con LangGraph y sus evals.',
+    facts: [
+      { value: '2 constructoras', label: 'en producción' },
+      { value: '6:00 a. m.', label: 'una corrida diaria' },
+      { value: '< 1 USD/mes', label: 'costo en AWS' },
+      { value: '190+', label: 'pruebas unitarias en CI' },
+    ],
     archTitle: 'Arquitectura',
     arch: [
-      { name: 'Scrapers', detail: 'Playwright · AWS Lambda' },
-      { name: 'Extracción con LLM', detail: 'Claude · Pydantic' },
-      { name: 'Base de datos', detail: 'Supabase · PostGIS · pgvector' },
-      { name: 'API', detail: 'FastAPI' },
-      { name: 'Asesor IA', detail: 'LangGraph · tools · RAG' },
-      { name: 'Frontend', detail: 'React' },
+      { name: 'EventBridge Scheduler', detail: '6:00 a. m. Bogotá', live: true },
+      { name: 'Lambda arm64', detail: 'httpx · robots.txt', live: true },
+      { name: 'S3', detail: 'HTML crudo', live: true },
+      { name: 'Extracción con LLM', detail: 'GPT-6 Luna → Pydantic', live: true },
+      { name: 'Supabase', detail: 'Postgres · histórico de solo inserción', live: true },
+      { name: 'API', detail: 'FastAPI', live: false },
+      { name: 'Asesor', detail: 'LangGraph + tools', live: false },
+      { name: 'Frontend', detail: 'React', live: false },
     ],
-    roadmapTitle: 'Roadmap · 8 semanas',
-    weekLabel: 'Semana',
-    currentLabel: 'semana actual',
-    weeks: weeks.map((w) => ({ start: w.start, dates: w.dates.es, title: w.title.es })),
-    endDate: '2026-12-14',
-    chips: ['Python', 'FastAPI', 'LangGraph', 'Claude', 'PostgreSQL', 'Playwright', 'AWS Lambda', 'Terraform', 'React'],
-    repoLabel: 'Repositorio',
+    archLegend: { live: 'En producción', next: 'Próximo' },
+    roadmapTitle: 'Roadmap · 12 specs hasta la demo',
+    specStatus: { done: 'terminado', next: 'siguiente', planned: 'pendiente' },
+    specs: specs.map((s) => ({ n: s.n, status: s.status, title: s.title.es })),
+    roadmapNote:
+      'Meta: demo a mediados de noviembre y proyecto completo a finales de noviembre de 2026. Después: más constructoras, búsqueda híbrida con RAG y servidor MCP.',
+    chips: ['Python', 'FastAPI', 'Pydantic', 'SQLAlchemy', 'Supabase', 'AWS Lambda', 'Terraform', 'GitHub Actions', 'LangGraph'],
+    repoLabel: 'Ver repositorio',
     repoHref: 'https://github.com/afjaramillo97/sobreplano',
     repoSoon: 'Repositorio · próximamente',
+    specsLabel: 'Leer los specs',
+    specsHref: 'https://github.com/afjaramillo97/sobreplano/tree/main/specs',
     demoSoon: 'Demo · próximamente',
   },
   value: {
@@ -79,25 +90,28 @@ const es: Content = {
       {
         title: 'Agentes LLM con evaluación',
         text: 'Agentes con tools, contexto y RAG, medidos con evaluaciones automáticas y con el costo por request bajo control.',
-        proof: 'Pasantía en MB Technology: suites tipo DeepEval, datasets de regresión, LLM-as-judge y prompt caching.',
+        proof: ['Pasantía en MB Technology: suites tipo DeepEval, datasets de regresión, LLM-as-judge y prompt caching.'],
         chips: ['Strands Agents', 'Bedrock AgentCore', 'Claude', 'RAG', 'DeepEval'],
       },
       {
         title: 'Backend para SaaS multi-tenant',
         text: 'APIs REST versionadas y módulos multi-tenant de extremo a extremo, del análisis a la migración en producción.',
-        proof: 'CINC Systems: plataforma SaaS que atiende a miles de administradoras de propiedades, sobre MongoDB y SQL Server.',
+        proof: ['CINC Systems: plataforma SaaS que atiende a miles de administradoras de propiedades, sobre MongoDB y SQL Server.'],
         chips: ['Node.js', 'Express', 'NestJS', 'MongoDB', 'SQL Server'],
       },
       {
         title: 'Datos y migraciones en AWS',
         text: 'Migraciones en producción reproducibles y auditables, con los costos de almacenamiento bajo control.',
-        proof: 'CLI de migración FSX → S3 con modo DRY_RUN, reanudación segura y reportes de MB/s y tasa de error.',
+        proof: [
+          'CLI de migración FSX → S3 con modo DRY_RUN, reanudación segura y reportes de MB/s y tasa de error.',
+          'Sobreplano: scraper diario en Lambda con Terraform, despliegue por OIDC y alarma de errores, por menos de 1 USD al mes.',
+        ],
         chips: ['AWS S3', 'IAM', 'SSO', 'Bash'],
       },
       {
         title: 'Integración de sistemas críticos',
         text: 'Pensamiento sistémico que viene de la electrónica y la automatización industrial.',
-        proof: 'HMV Ingenieros: redes IEC 61850, arquitecturas LAN redundantes y HMI para subestaciones digitales.',
+        proof: ['HMV Ingenieros: redes IEC 61850, arquitecturas LAN redundantes y HMI para subestaciones digitales.'],
         chips: ['IEC 61850', 'PRP · HSR', 'Ciberseguridad'],
       },
     ],
@@ -170,6 +184,7 @@ const es: Content = {
           { label: 'RAG y embeddings', icon: 'layers' },
           { label: 'DeepEval · LLM-as-judge', icon: 'check' },
           { label: 'MCP', icon: 'mcp' },
+          { label: 'OpenAI API · salidas estructuradas', icon: 'braces' },
         ],
       },
       {
@@ -179,6 +194,7 @@ const es: Content = {
           { label: 'Express', icon: 'express' },
           { label: 'NestJS', icon: 'nestjs' },
           { label: 'Python', icon: 'python' },
+          { label: 'FastAPI', icon: 'fastapi' },
           { label: 'Go', icon: 'go' },
           { label: 'JWT', icon: 'jwt' },
         ],
@@ -188,6 +204,8 @@ const es: Content = {
         items: [
           { label: 'MongoDB', icon: 'mongodb' },
           { label: 'SQL Server', icon: 'database' },
+          { label: 'PostgreSQL · Supabase', icon: 'supabase' },
+          { label: 'SQLAlchemy · Alembic', icon: 'sqlalchemy' },
           { label: 'AWS · S3 · IAM · SSO', icon: 'cloud' },
           { label: 'Docker', icon: 'docker' },
           { label: 'Terraform', icon: 'terraform' },
@@ -206,11 +224,11 @@ const es: Content = {
   learning: {
     kicker: 'En curso',
     title: 'Qué estoy aprendiendo',
-    lead: 'Cada tema lo estudio la semana en que el proyecto lo necesita.',
+    lead: 'Cada tema lo estudio el día en que el proyecto lo necesita.',
     items: [
-      { topic: 'LangGraph y evaluación de agentes', why: 'para el asesor del buscador' },
-      { topic: 'FastAPI, PostgreSQL y PostGIS', why: 'para la API y el mapa de precios' },
-      { topic: 'Scraping con Playwright', why: 'para el histórico diario de precios' },
+      { topic: 'LangGraph y persistencia', why: 'para el asesor de Sobreplano' },
+      { topic: 'Evals con golden set y LLM-as-judge', why: 'para medir el asesor y la extracción' },
+      { topic: 'Guardrails contra prompt injection', why: 'para el contenido que llega de sitios externos' },
     ],
   },
   education: {
@@ -262,7 +280,7 @@ const es: Content = {
   langHint: { lang: 'en', text: 'This site is also available in English.', cta: 'View in English', close: 'Dismiss' },
   footer: {
     built: 'Hecho con Astro · Publicado en Vercel',
-    updated: 'Actualizado en octubre de 2026',
+    updated: 'Actualizado en noviembre de 2026',
   },
 };
 
