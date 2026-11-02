@@ -1,5 +1,5 @@
 import type { Content } from './types';
-import { weeks } from './roadmap';
+import { specs, specsDone, specsTotal } from './sobreplano';
 
 const en: Content = {
   locale: 'en',
@@ -46,28 +46,39 @@ const en: Content = {
   ],
   project: {
     kicker: 'Featured project',
-    title: 'New-home search with an AI advisor',
-    statusTemplate: 'In progress · week {n} of 8',
-    statusDone: 'Live',
-    text: 'Brings together new-home projects across the Medellín metro area, keeps their price history, and answers through an AI advisor that searches, compares and simulates mortgages.',
+    title: 'Sobreplano',
+    subtitle: 'Off-plan new-home search for the Medellín metro area, with a daily price history and an AI advisor.',
+    status: `In production · ${specsDone} of ${specsTotal} specs to demo`,
+    text: 'Running in production today: every morning a scraper on AWS visits the Londoño Gómez and Constructora Capital websites, an LLM extracts unit types and prices into validated models, and every price lands in an append-only history in Supabase. Next up: the read API, the LangGraph advisor and its evals.',
+    facts: [
+      { value: '2 developers', label: 'in production' },
+      { value: '6:00 a.m.', label: 'one run a day' },
+      { value: '< 1 USD/month', label: 'AWS cost' },
+      { value: '190+', label: 'unit tests in CI' },
+    ],
     archTitle: 'Architecture',
     arch: [
-      { name: 'Scrapers', detail: 'Playwright · AWS Lambda' },
-      { name: 'LLM extraction', detail: 'Claude · Pydantic' },
-      { name: 'Database', detail: 'Supabase · PostGIS · pgvector' },
-      { name: 'API', detail: 'FastAPI' },
-      { name: 'AI advisor', detail: 'LangGraph · tools · RAG' },
-      { name: 'Frontend', detail: 'React' },
+      { name: 'EventBridge Scheduler', detail: '6:00 a.m. Bogotá', live: true },
+      { name: 'Lambda arm64', detail: 'httpx · robots.txt', live: true },
+      { name: 'S3', detail: 'raw HTML', live: true },
+      { name: 'LLM extraction', detail: 'GPT-6 Luna → Pydantic', live: true },
+      { name: 'Supabase', detail: 'Postgres · append-only history', live: true },
+      { name: 'API', detail: 'FastAPI', live: false },
+      { name: 'Advisor', detail: 'LangGraph + tools', live: false },
+      { name: 'Frontend', detail: 'React', live: false },
     ],
-    roadmapTitle: 'Roadmap · 8 weeks',
-    weekLabel: 'Week',
-    currentLabel: 'current week',
-    weeks: weeks.map((w) => ({ start: w.start, dates: w.dates.en, title: w.title.en })),
-    endDate: '2026-12-14',
-    chips: ['Python', 'FastAPI', 'LangGraph', 'Claude', 'PostgreSQL', 'Playwright', 'AWS Lambda', 'Terraform', 'React'],
-    repoLabel: 'Repository',
+    archLegend: { live: 'In production', next: 'Next' },
+    roadmapTitle: 'Roadmap · 12 specs to demo',
+    specStatus: { done: 'done', next: 'next', planned: 'planned' },
+    specs: specs.map((s) => ({ n: s.n, status: s.status, title: s.title.en })),
+    roadmapNote:
+      'Target: demo by mid-November and the full project by late November 2026. Then: more developers, hybrid search with RAG and an MCP server.',
+    chips: ['Python', 'FastAPI', 'Pydantic', 'SQLAlchemy', 'Supabase', 'AWS Lambda', 'Terraform', 'GitHub Actions', 'LangGraph'],
+    repoLabel: 'View repository',
     repoHref: 'https://github.com/afjaramillo97/sobreplano',
     repoSoon: 'Repository · coming soon',
+    specsLabel: 'Read the specs',
+    specsHref: 'https://github.com/afjaramillo97/sobreplano/tree/main/specs',
     demoSoon: 'Demo · coming soon',
   },
   value: {
@@ -79,25 +90,28 @@ const en: Content = {
       {
         title: 'LLM agents with evals',
         text: 'Agents with tools, context and RAG, measured with automated evals and with cost per request under control.',
-        proof: 'Internship at MB Technology: DeepEval-style suites, regression datasets, LLM-as-judge and prompt caching.',
+        proof: ['Internship at MB Technology: DeepEval-style suites, regression datasets, LLM-as-judge and prompt caching.'],
         chips: ['Strands Agents', 'Bedrock AgentCore', 'Claude', 'RAG', 'DeepEval'],
       },
       {
         title: 'Backend for multi-tenant SaaS',
         text: 'Versioned REST APIs and multi-tenant modules end to end, from analysis to production data migration.',
-        proof: 'CINC Systems: a SaaS platform serving thousands of property management companies, on MongoDB and SQL Server.',
+        proof: ['CINC Systems: a SaaS platform serving thousands of property management companies, on MongoDB and SQL Server.'],
         chips: ['Node.js', 'Express', 'NestJS', 'MongoDB', 'SQL Server'],
       },
       {
         title: 'Data and migrations on AWS',
         text: 'Reproducible, auditable production migrations, with storage costs under control.',
-        proof: 'FSX → S3 migration CLI with DRY_RUN mode, safe resume, and MB/s and error-rate reports.',
+        proof: [
+          'FSX → S3 migration CLI with DRY_RUN mode, safe resume, and MB/s and error-rate reports.',
+          'Sobreplano: daily scraper on Lambda with Terraform, OIDC deploys and error alarms, for under 1 USD a month.',
+        ],
         chips: ['AWS S3', 'IAM', 'SSO', 'Bash'],
       },
       {
         title: 'Critical systems integration',
         text: 'Systems thinking that comes from electronics and industrial automation.',
-        proof: 'HMV Ingenieros: IEC 61850 networks, redundant LAN architectures and HMIs for digital substations.',
+        proof: ['HMV Ingenieros: IEC 61850 networks, redundant LAN architectures and HMIs for digital substations.'],
         chips: ['IEC 61850', 'PRP · HSR', 'Cybersecurity'],
       },
     ],
@@ -170,6 +184,7 @@ const en: Content = {
           { label: 'RAG and embeddings', icon: 'layers' },
           { label: 'DeepEval · LLM-as-judge', icon: 'check' },
           { label: 'MCP', icon: 'mcp' },
+          { label: 'OpenAI API · structured outputs', icon: 'braces' },
         ],
       },
       {
@@ -179,6 +194,7 @@ const en: Content = {
           { label: 'Express', icon: 'express' },
           { label: 'NestJS', icon: 'nestjs' },
           { label: 'Python', icon: 'python' },
+          { label: 'FastAPI', icon: 'fastapi' },
           { label: 'Go', icon: 'go' },
           { label: 'JWT', icon: 'jwt' },
         ],
@@ -188,6 +204,8 @@ const en: Content = {
         items: [
           { label: 'MongoDB', icon: 'mongodb' },
           { label: 'SQL Server', icon: 'database' },
+          { label: 'PostgreSQL · Supabase', icon: 'supabase' },
+          { label: 'SQLAlchemy · Alembic', icon: 'sqlalchemy' },
           { label: 'AWS · S3 · IAM · SSO', icon: 'cloud' },
           { label: 'Docker', icon: 'docker' },
           { label: 'Terraform', icon: 'terraform' },
@@ -206,11 +224,11 @@ const en: Content = {
   learning: {
     kicker: 'In progress',
     title: 'What I’m learning',
-    lead: 'I study each topic in the week the project needs it.',
+    lead: 'I study each topic on the day the project needs it.',
     items: [
-      { topic: 'LangGraph and agent evaluation', why: 'for the search advisor' },
-      { topic: 'FastAPI, PostgreSQL and PostGIS', why: 'for the API and the price map' },
-      { topic: 'Web scraping with Playwright', why: 'for the daily price history' },
+      { topic: 'LangGraph and persistence', why: 'for the Sobreplano advisor' },
+      { topic: 'Evals with a golden set and LLM-as-judge', why: 'to measure the advisor and the extraction' },
+      { topic: 'Guardrails against prompt injection', why: 'for content that comes from external websites' },
     ],
   },
   education: {
@@ -262,7 +280,7 @@ const en: Content = {
   langHint: { lang: 'es', text: 'Este sitio también está en español.', cta: 'Ver en español', close: 'Cerrar' },
   footer: {
     built: 'Built with Astro · Hosted on Vercel',
-    updated: 'Updated October 2026',
+    updated: 'Updated November 2026',
   },
 };
 

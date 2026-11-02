@@ -11,11 +11,11 @@ Portafolio de una sola página, en español (`/`) e inglés (`/en/`). Sitio est�
 ## Dónde está cada cosa
 
 - `src/i18n/es.ts` y `src/i18n/en.ts`: **todo el texto**. Mismo tipo `Content` (`src/i18n/types.ts`); si cambias uno, cambia el otro.
-- `src/i18n/roadmap.ts`: las 8 semanas del proyecto destacado.
+- `src/i18n/sobreplano.ts`: los 12 specs de Sobreplano hasta la demo; el estado de la tarjeta se deriva de ahí.
 - `src/components/`: una sección por componente; no llevan texto propio.
 - `src/styles/global.css`: tokens de color (tema oscuro y claro), escala tipográfica y componentes base.
 - `src/scripts/node-graph.ts`: el grafo animado del hero (canvas, sin librerías).
-- `src/scripts/ui.ts`: selector de tema, aparición al hacer scroll, copiar correo y semana actual del roadmap.
+- `src/scripts/ui.ts`: selector de tema, aparición al hacer scroll, copiar correo y aviso de idioma.
 - `public/cv/`: CV **públicos** (sin cédula, fecha de nacimiento, teléfono, tarjeta profesional ni referencias).
 - `public/og-es.png`, `public/og-en.png`: vista previa para LinkedIn (1200 × 630).
 
@@ -30,6 +30,7 @@ Portafolio de una sola página, en español (`/`) e inglés (`/en/`). Sitio est�
 ## Tareas frecuentes
 
 - **Publicar el repositorio del buscador:** en `es.ts` y `en.ts`, cambia `project.repoHref: null` por la URL.
+- **Avanzar el roadmap de Sobreplano:** cambia el status del spec en `src/i18n/sobreplano.ts` (y la cifra de pruebas si cambió).
 - **Agregar un proyecto o un empleo:** agrega un objeto al arreglo correspondiente en ambos idiomas.
 - **Cambiar la URL del sitio:** `SITE_URL` en `astro.config.mjs` y la línea `Sitemap:` de `public/robots.txt`.
 - **Actualizar el CV:** reemplaza los PDF de `public/cv/` por versiones públicas con los mismos nombres.

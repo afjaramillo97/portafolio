@@ -5,6 +5,7 @@ import {
   siDocker,
   siExpress,
   siFastapi,
+  siGithubactions,
   siGnubash,
   siGit,
   siGithub,
@@ -15,9 +16,10 @@ import {
   siMongodb,
   siNestjs,
   siNodedotjs,
-  siPostgresql,
+  siPydantic,
   siPython,
-  siReact,
+  siSqlalchemy,
+  siSupabase,
   siTerraform,
 } from 'simple-icons';
 
@@ -32,6 +34,7 @@ const brand = {
   bash: siGnubash.path,
   git: siGit.path,
   github: siGithub.path,
+  githubactions: siGithubactions.path,
   go: siGo.path,
   jwt: siJsonwebtokens.path,
   langgraph: siLanggraph.path,
@@ -39,9 +42,10 @@ const brand = {
   mongodb: siMongodb.path,
   nestjs: siNestjs.path,
   nodejs: siNodedotjs.path,
-  postgresql: siPostgresql.path,
+  pydantic: siPydantic.path,
   python: siPython.path,
-  react: siReact.path,
+  sqlalchemy: siSqlalchemy.path,
+  supabase: siSupabase.path,
   terraform: siTerraform.path,
 } as const;
 
@@ -58,7 +62,7 @@ const generic = {
   network:
     '<rect x="9" y="3" width="6" height="5" rx="1.2"/><rect x="3" y="16" width="6" height="5" rx="1.2"/><rect x="15" y="16" width="6" height="5" rx="1.2"/><path d="M12 8v4M6 16v-2h12v2"/>',
   key: '<circle cx="8" cy="15" r="4"/><path d="m11 12 8-8m-3 3 2 2m-4 0 1.5 1.5"/>',
-  browser: '<rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/>',
+  braces: '<path d="M8 3H7a2 2 0 0 0-2 2v5l-2 2 2 2v5a2 2 0 0 0 2 2h1M16 3h1a2 2 0 0 1 2 2v5l2 2-2 2v5a2 2 0 0 1-2 2h-1"/>',
   bolt: '<path d="M13 3 5 13.5h6L10 21l8-10.5h-6L13 3Z"/>',
   chip: '<rect x="7" y="7" width="10" height="10" rx="2"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/>',
 } as const;
@@ -97,11 +101,12 @@ const chipIcons: Record<string, IconKey> = {
   Python: 'python',
   FastAPI: 'fastapi',
   LangGraph: 'langgraph',
-  PostgreSQL: 'postgresql',
-  Playwright: 'browser',
+  Pydantic: 'pydantic',
+  SQLAlchemy: 'sqlalchemy',
+  Supabase: 'supabase',
+  'GitHub Actions': 'githubactions',
   'AWS Lambda': 'bolt',
   Terraform: 'terraform',
-  React: 'react',
 };
 
 export function chipIcon(label: string, size = 14): string | null {

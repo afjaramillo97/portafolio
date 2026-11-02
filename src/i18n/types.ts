@@ -32,22 +32,26 @@ export interface Content {
   project: {
     kicker: string;
     title: string;
-    /** `{n}` is replaced by the current week number. */
-    statusTemplate: string;
-    statusDone: string;
+    subtitle: string;
+    /** Derived from src/i18n/sobreplano.ts (specs done of total). */
+    status: string;
     text: string;
+    facts: { value: string; label: string }[];
     archTitle: string;
-    arch: { name: string; detail: string }[];
+    /** `live` = running in production; otherwise it is the next step. */
+    arch: { name: string; detail: string; live: boolean }[];
+    archLegend: { live: string; next: string };
     roadmapTitle: string;
-    weekLabel: string;
-    currentLabel: string;
-    weeks: { start: string; dates: string; title: string }[];
-    endDate: string;
+    specStatus: { done: string; next: string; planned: string };
+    specs: { n: string; status: 'done' | 'next' | 'planned'; title: string }[];
+    roadmapNote: string;
     chips: string[];
     repoLabel: string;
     /** null = the repository is not public yet. */
     repoHref: string | null;
     repoSoon: string;
+    specsLabel: string;
+    specsHref: string;
     demoSoon: string;
   };
   value: {
@@ -55,7 +59,7 @@ export interface Content {
     title: string;
     lead: string;
     proofLabel: string;
-    cards: { title: string; text: string; proof: string; chips: string[] }[];
+    cards: { title: string; text: string; proof: string[]; chips: string[] }[];
   };
   experience: {
     kicker: string;
