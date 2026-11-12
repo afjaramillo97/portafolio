@@ -72,7 +72,6 @@ export interface Content {
     title: string;
     groups: { name: string; items: { label: string; icon: IconKey }[] }[];
   };
-  learning: { kicker: string; title: string; lead: string; items: { topic: string; why: string }[] };
   education: {
     kicker: string;
     title: string;

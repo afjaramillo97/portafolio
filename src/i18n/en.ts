@@ -221,16 +221,6 @@ const en: Content = {
       },
     ],
   },
-  learning: {
-    kicker: 'In progress',
-    title: 'What I’m learning',
-    lead: 'I study each topic on the day the project needs it.',
-    items: [
-      { topic: 'LangGraph and persistence', why: 'for the Sobreplano advisor' },
-      { topic: 'Evals with a golden set and LLM-as-judge', why: 'to measure the advisor and the extraction' },
-      { topic: 'Guardrails against prompt injection', why: 'for content that comes from external websites' },
-    ],
-  },
   education: {
     kicker: 'Education',
     title: 'Education and achievements',

@@ -221,16 +221,6 @@ const es: Content = {
       },
     ],
   },
-  learning: {
-    kicker: 'En curso',
-    title: 'Qué estoy aprendiendo',
-    lead: 'Cada tema lo estudio el día en que el proyecto lo necesita.',
-    items: [
-      { topic: 'LangGraph y persistencia', why: 'para el asesor de Sobreplano' },
-      { topic: 'Evals con golden set y LLM-as-judge', why: 'para medir el asesor y la extracción' },
-      { topic: 'Guardrails contra prompt injection', why: 'para el contenido que llega de sitios externos' },
-    ],
-  },
   education: {
     kicker: 'Formación',
     title: 'Formación y logros',
