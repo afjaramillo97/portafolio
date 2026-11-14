@@ -49,7 +49,7 @@ const es: Content = {
     title: 'Sobreplano',
     subtitle: 'Buscador de vivienda nueva sobre planos en el Valle de Aburrá, con histórico diario de precios y un asesor IA.',
     status: `En producción · ${specsDone} de ${specsTotal} specs para la demo`,
-    text: 'Hoy corre en producción: cada mañana un scraper en AWS visita los sitios de Londoño Gómez y Constructora Capital, un LLM extrae tipologías y precios a modelos validados y cada precio queda en un histórico de solo inserción en Supabase. Lo siguiente es la API de lectura, el asesor con LangGraph y sus evals.',
+    text: 'Hoy corre en producción: cada mañana un scraper en AWS visita los sitios de Londoño Gómez y Constructora Capital, un LLM extrae tipologías y precios a modelos validados y cada precio queda en un histórico de solo inserción en Supabase. Ya están implementados la API de lectura, el asesor con LangGraph y sus evals; lo siguiente son los guardrails, el frontend y el despliegue de la demo.',
     facts: [
       { value: '2 constructoras', label: 'en producción' },
       { value: '6:00 a. m.', label: 'una corrida diaria' },
@@ -183,6 +183,7 @@ const es: Content = {
           { label: 'Strands Agents SDK', icon: 'agent' },
           { label: 'RAG y embeddings', icon: 'layers' },
           { label: 'DeepEval · LLM-as-judge', icon: 'check' },
+          { label: 'Langfuse · observabilidad', icon: 'activity' },
           { label: 'MCP', icon: 'mcp' },
           { label: 'OpenAI API · salidas estructuradas', icon: 'braces' },
         ],

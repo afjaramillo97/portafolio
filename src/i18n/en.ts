@@ -49,7 +49,7 @@ const en: Content = {
     title: 'Sobreplano',
     subtitle: 'Off-plan new-home search for the Medellín metro area, with a daily price history and an AI advisor.',
     status: `In production · ${specsDone} of ${specsTotal} specs to demo`,
-    text: 'Running in production today: every morning a scraper on AWS visits the Londoño Gómez and Constructora Capital websites, an LLM extracts unit types and prices into validated models, and every price lands in an append-only history in Supabase. Next up: the read API, the LangGraph advisor and its evals.',
+    text: 'Running in production today: every morning a scraper on AWS visits the Londoño Gómez and Constructora Capital websites, an LLM extracts unit types and prices into validated models, and every price lands in an append-only history in Supabase. The read API, the LangGraph advisor and its evals are already implemented; next up are the guardrails, the frontend and the demo deployment.',
     facts: [
       { value: '2 developers', label: 'in production' },
       { value: '6:00 a.m.', label: 'one run a day' },
@@ -183,6 +183,7 @@ const en: Content = {
           { label: 'Strands Agents SDK', icon: 'agent' },
           { label: 'RAG and embeddings', icon: 'layers' },
           { label: 'DeepEval · LLM-as-judge', icon: 'check' },
+          { label: 'Langfuse · observability', icon: 'activity' },
           { label: 'MCP', icon: 'mcp' },
           { label: 'OpenAI API · structured outputs', icon: 'braces' },
         ],
