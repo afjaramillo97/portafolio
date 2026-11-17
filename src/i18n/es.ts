@@ -49,7 +49,7 @@ const es: Content = {
     title: 'Sobreplano',
     subtitle: 'Buscador de vivienda nueva sobre planos en el Valle de Aburrá, con histórico diario de precios y un asesor IA.',
     status: `En producción · ${specsDone} de ${specsTotal} specs para la demo`,
-    text: 'Hoy corre en producción: cada mañana un scraper en AWS visita los sitios de Londoño Gómez y Constructora Capital, un LLM extrae tipologías y precios a modelos validados y cada precio queda en un histórico de solo inserción en Supabase. Ya están implementados la API de lectura, el asesor con LangGraph y sus evals; lo siguiente son los guardrails, el frontend y el despliegue de la demo.',
+    text: 'Hoy corre en producción: cada mañana un scraper en AWS visita los sitios de Londoño Gómez y Constructora Capital, un LLM extrae tipologías y precios a modelos validados y cada precio queda en un histórico de solo inserción en Supabase. Ya están implementados la API de lectura, el asesor con LangGraph, sus evals y los guardrails; lo siguiente son el frontend y el despliegue de la demo.',
     facts: [
       { value: '2 constructoras', label: 'en producción' },
       { value: '6:00 a. m.', label: 'una corrida diaria' },

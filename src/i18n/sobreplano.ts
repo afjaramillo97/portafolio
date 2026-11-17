@@ -11,8 +11,8 @@ export const specs: { n: string; status: SpecStatus; title: { es: string; en: st
   { n: '07', status: 'done', title: { es: 'API de lectura', en: 'Read API' } },
   { n: '08', status: 'done', title: { es: 'Asesor con LangGraph y tools', en: 'LangGraph advisor with tools' } },
   { n: '09', status: 'done', title: { es: 'Evals', en: 'Evals' } },
-  { n: '10', status: 'next', title: { es: 'Guardrails contra prompt injection', en: 'Prompt-injection guardrails' } },
-  { n: '11', status: 'planned', title: { es: 'Frontend', en: 'Frontend' } },
+  { n: '10', status: 'done', title: { es: 'Guardrails contra prompt injection', en: 'Prompt-injection guardrails' } },
+  { n: '11', status: 'next', title: { es: 'Frontend', en: 'Frontend' } },
   { n: '12', status: 'planned', title: { es: 'Despliegue y demo', en: 'Deploy and demo' } },
 ];
 
